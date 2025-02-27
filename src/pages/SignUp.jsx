@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../utils/helper";
 import axiosInstance from "../utils/axiosInstance";
+// import bcrypt from "bcryptjs";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -35,10 +36,11 @@ const SignUp = () => {
 
     // SignUp API Call
     try {
+      // Remove password hashing from frontend
       const response = await axiosInstance.post("/signup", {
         fullName: name,
         email: email,
-        password: password,
+        password: password, // Send plain password - encryption happens on server
       });
 
       if (response.data && response.data.error) {
@@ -47,7 +49,8 @@ const SignUp = () => {
       }
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
+        // Redirect to login instead of storing token right away
+        localStorage.setItem("signupSuccess", "true");
         navigate("/login");
       }
     } catch (error) {

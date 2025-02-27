@@ -30,7 +30,7 @@ const Login = () => {
     try {
       const response = await axiosInstance.post("/login", {
         email: email,
-        password: password,
+        password: password, // Send plain password - encryption happens on server
       });
 
       if (response.data && response.data.accessToken) {
